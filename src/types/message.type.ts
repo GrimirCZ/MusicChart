@@ -1,4 +1,4 @@
-type MessageTypeEnum = "client-connect" | "song-add" | "song-remove" | "song-rate" | "song-change"
+type MessageTypeEnum = "health-check" | "client-connect" | "song-add" | "song-remove" | "song-rate" | "song-change"
 import { has } from "lodash"
 import { Primitive, validate } from 'validate-typescript';
 

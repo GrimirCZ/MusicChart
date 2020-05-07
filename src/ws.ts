@@ -16,7 +16,11 @@ import WebSocketServer from "./config/ws.server"
 
 
 WebSocketServer.on("connection", (ws) => {
-    ws.on("message", async (data) => {
+    ws.on("message", async (rawData: string) => {
+        const data = JSON.parse(rawData)
+
+        console.log(data)
+
         if(!isValidMessage(data)) {
             return
         }
@@ -25,6 +29,13 @@ WebSocketServer.on("connection", (ws) => {
 
         try {
             switch(message.type) {
+                case "health-check":
+
+                    ws.send(JSON.stringify({
+                        type: "health-response",
+                        status: "healthy"
+                    }))
+                    break
                 case "client-connect":
                     clientConnectHandler(ws, validateClientConnectMessage(message));
 

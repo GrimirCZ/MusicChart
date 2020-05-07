@@ -8,7 +8,7 @@ const computeScore = (rating: Rating[]) => {
 }
 
 export const emitSongListChangeEvent = (ws: WebSocket, user: User) => {
-    ws.send({
+    ws.send(JSON.stringify({
         type: "song-data",
         songs: user.room.songs.map(({
                                         id,
@@ -27,7 +27,7 @@ export const emitSongListChangeEvent = (ws: WebSocket, user: User) => {
             yourRating: ratings.filter(rating => rating.user.id === user.id)[0].value,
             hasPlayed
         }))
-    })
+    }))
 }
 
 
