@@ -62,7 +62,7 @@ router.post("/connect", [
     }
     room.users.push(newUser)
 
-    return {
+    return res.json({
         userId: newUser.id,
         isAdmin,
 
@@ -71,7 +71,7 @@ router.post("/connect", [
 
         roomName: room.name,
         adminName: room.admin.name
-    }
+    })
 })
 
 export default router
