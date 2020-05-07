@@ -37,7 +37,8 @@ router.post("/connect", [
     const room = RoomManager.get(req.body.roomId)
 
     if(room === undefined) {
-        throw new Error(ROOM_NOT_FOUND);
+
+        return res.status(401).json({errors: [ROOM_NOT_FOUND]});
     }
 
     const isAdmin = room.admin === null;
