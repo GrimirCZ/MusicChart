@@ -1,10 +1,13 @@
 import express = require("express");
 import { json, urlencoded } from "body-parser";
 import RoomController from "./controllers/room.controller"
-import "./ws"
+import cors = require("cors");
 import { HTTP_PORT } from "./config/variables";
+import "./ws"
 
 const server = express()
+
+server.options("*", cors())
 
 server.use(json())
 server.use(urlencoded())
