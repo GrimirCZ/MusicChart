@@ -1,8 +1,9 @@
 import WebSocket = require('ws');
+import { WS_PORT } from "./variables";
 
 const getWebsocketServer = () => {
     return new WebSocket.Server({
-        port: 8080,
+        port: WS_PORT,
         perMessageDeflate: {
             zlibDeflateOptions: {
                 // See zlib defaults.
