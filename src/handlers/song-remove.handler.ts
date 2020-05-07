@@ -3,13 +3,21 @@ import { broadcastSongListChange } from "../emitters/emit-song-list-change.event
 import SongManager from "../managers/song.manager";
 import ClientConnectionManager from "../managers/client-connection.manager";
 import WebSocket = require('ws');
+import { INSUFFICIENT_PERMISSIONS, SONG_NOT_FOUND, USER_NOT_FOUND } from "../config/errors";
 
 export default (ws: WebSocket, message: SongRemoveMessage) => {
     const user = ClientConnectionManager.get(ws)
     const song = SongManager.get(message.songId)
 
+    if(user === undefined) {
+        throw new Error(USER_NOT_FOUND)
+    }
+    if(song === undefined) {
+        throw new Error(SONG_NOT_FOUND)
+    }
+
     if(!user.isAdmin && user.id !== song.user.id) {
-        return
+        throw new Error(INSUFFICIENT_PERMISSIONS)
     }
 
     SongManager.remove(song.id)

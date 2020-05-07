@@ -5,26 +5,22 @@ import { Song } from "../types/song.type";
 import SongManager from "../managers/song.manager";
 import ClientConnectionManager from "../managers/client-connection.manager";
 import WebSocket = require('ws');
+import { INSUFFICIENT_PERMISSIONS, USER_NOT_FOUND } from "../config/errors";
 
 export default async (ws: WebSocket, message: SongAddMessage) => {
     const user = ClientConnectionManager.get(ws)
 
+    if(user === undefined) {
+        throw new Error(USER_NOT_FOUND)
+    }
+
     if(!user.canAdd) {
-        return
+        throw new Error(INSUFFICIENT_PERMISSIONS)
     }
 
     let newSong: Song;
 
-    try {
-        newSong = await SongManager.add({...message, user})
-    } catch(e) {
-        ws.send({
-            type: "error",
-            message: e.message
-        })
-
-        return
-    }
+    newSong = await SongManager.add({...message, user})
 
     user.room.songs.push(newSong)
 

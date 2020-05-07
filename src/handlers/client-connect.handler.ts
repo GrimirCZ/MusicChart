@@ -5,9 +5,14 @@ import { emitSongListChangeEvent } from "../emitters/emit-song-list-change.event
 import emitUserListChangeEvent from "../emitters/emit-user-list-change.event";
 import { emitCurrentSongChangeEvent } from "../emitters/emit-current-song-change.event";
 import WebSocket = require('ws');
+import { USER_NOT_FOUND } from "../config/errors";
 
 export default (ws: WebSocket, message: ClientConnectMessage) => {
     const user = UserManager.get(message.userId)
+
+    if(user === undefined) {
+        throw new Error(USER_NOT_FOUND)
+    }
 
     ClientConnectionManager.add(ws, user)
 

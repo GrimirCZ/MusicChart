@@ -2,6 +2,7 @@ import { Request, Response, Router } from "express";
 import { body, validationResult } from "express-validator";
 import RoomManager from "../managers/room.manager";
 import UserManager from "../managers/user.manager";
+import { ROOM_NOT_FOUND } from "../config/errors";
 
 const router = Router();
 
@@ -34,6 +35,10 @@ router.post("/connect", [
     }
 
     const room = RoomManager.get(req.body.roomId)
+
+    if(room === undefined) {
+        throw new Error(ROOM_NOT_FOUND);
+    }
 
     const isAdmin = room.admin === null;
     const canControl =
