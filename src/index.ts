@@ -7,8 +7,10 @@ import "./ws"
 
 const server = express()
 
-server.options("*", cors())
-
+server.use(cors({
+    origin: "*",
+    methods: "*"
+}))
 server.use(json())
 server.use(urlencoded())
 
