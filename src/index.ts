@@ -9,6 +9,10 @@ const server = express()
 server.use(json())
 server.use(urlencoded())
 
+server.get("/", (req, res) => res.json({
+    status: "healty",
+    version: "0.0.1"
+}))
 server.use("/room", RoomController)
 
 server.listen(HTTP_PORT, () => {
