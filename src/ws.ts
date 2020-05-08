@@ -19,8 +19,6 @@ WebSocketServer.on("connection", (ws) => {
     ws.on("message", async (rawData: string) => {
         const data = JSON.parse(rawData)
 
-        console.log(data)
-
         if(!isValidMessage(data)) {
             return
         }

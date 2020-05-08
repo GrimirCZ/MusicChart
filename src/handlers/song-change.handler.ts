@@ -21,6 +21,7 @@ export default (ws: WebSocket, message: SongChangeMessage) => {
         throw new Error(INSUFFICIENT_PERMISSIONS)
     }
 
+    newSong.hasPlayed = true
     user.room.currentSong = newSong
     user.room.timeOfLastChangeStart = getCurrentTimestamp() + CHANGE_PROPAGATION_TIMOUT
 
