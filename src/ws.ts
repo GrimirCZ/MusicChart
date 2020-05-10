@@ -21,10 +21,10 @@ WebSocketServer.on("connection", (ws) => {
         const data = JSON.parse(rawData)
 
         if(!isValidMessage(data)) {
-	    ws.send(JSON.stringify({
+            ws.send(JSON.stringify({
                 type: "error",
-		message: INVALID_JSON
-	    }))
+                message: INVALID_JSON
+            }))
 
             return
 
@@ -65,11 +65,10 @@ WebSocketServer.on("connection", (ws) => {
                     break;
             }
         } catch(e) {
-	console.log(e)
-	//ws.send({
-	//      type: "error",
-	//      message: JSON.stringify(e.message)
-	//  })
+            ws.send(JSON.stringify({
+                type: "error",
+                message: e.message
+            }))
         }
     })
 });
