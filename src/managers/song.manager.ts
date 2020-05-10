@@ -18,7 +18,7 @@ const getVideoData = async (videoId: string) => {
 
     url.searchParams.append("id", videoId)
     url.searchParams.append("key", YOUTUBE_API_KEY)
-    url.searchParams.append("part", "contentDetails")
+    url.searchParams.append("part", "contentDetails,snippet")
 
     console.log(url.toString())
 
