@@ -8,7 +8,7 @@ export const emitCurrentSongChangeEvent = (ws: WebSocket, user: User) => {
         type: "current-song-data",
 
         userName: user.room.lastChangeUser.name,
-        currentSong: user.room.currentSong,
+        currentSong: user.room.currentSong || null,
         since: user.room.timeOfLastChangeStart
     }))
 }

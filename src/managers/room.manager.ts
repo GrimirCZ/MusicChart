@@ -2,6 +2,7 @@ import { RightEnum, Room } from "../types/room.type";
 import { randomBytes } from "crypto"
 import { User } from "../types/user.type";
 import { Song } from "../types/song.type";
+import { getCurrentTimestamp } from "../helpers/get-current-timestamp";
 
 let rooms: Room[] = []
 
@@ -23,7 +24,9 @@ const add = ({roomName, musicControl, musicAdd}: AddRoomProps): Room => {
         admin: <null>null,
         users: <User[]>[],
 
-        songs: <Song[]>[]
+        songs: <Song[]>[],
+
+        timeOfLastChangeStart: getCurrentTimestamp()
     }
 
     rooms.push(newRoom)
