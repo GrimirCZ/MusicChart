@@ -24,7 +24,7 @@ WebSocketServer.on("connection", (ws) => {
 	    ws.send({
                 type: "error",
 		message: INVALID_JSON
-		})
+	    })
 
             return
 
