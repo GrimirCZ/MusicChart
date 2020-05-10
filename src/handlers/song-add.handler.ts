@@ -6,6 +6,7 @@ import SongManager from "../managers/song.manager";
 import ClientConnectionManager from "../managers/client-connection.manager";
 import WebSocket = require('ws');
 import { INSUFFICIENT_PERMISSIONS, USER_NOT_FOUND } from "../config/errors";
+import { broadcastSongListChange } from "../emitters/emit-song-list-change.event";
 
 export default async (ws: WebSocket, message: SongAddMessage) => {
     const user = ClientConnectionManager.get(ws)
@@ -24,5 +25,5 @@ export default async (ws: WebSocket, message: SongAddMessage) => {
 
     user.room.songs.push(newSong)
 
-    broadCastCurrentSongChangeEvent(user)
+    broadcastSongListChange(user)
 }
