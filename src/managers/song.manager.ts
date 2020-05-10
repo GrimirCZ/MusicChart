@@ -2,6 +2,7 @@ import { randomBytes } from "crypto"
 import { User } from "../types/user.type";
 import { Song } from "../types/song.type";
 import { YOUTUBE_API_KEY } from "../config/variables"
+import fetch from 'node-fetch';
 
 
 let songs: Song[] = []
