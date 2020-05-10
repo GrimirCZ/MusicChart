@@ -20,11 +20,7 @@ const getVideoData = async (videoId: string) => {
     url.searchParams.append("key", YOUTUBE_API_KEY)
     url.searchParams.append("part", "contentDetails,snippet")
 
-    console.log(url.toString())
-
     const res = await fetch(url.toString()).then(res => res.json())
-
-    console.log(res)
 
     let title = res.items[0].snippet.title;
 
