@@ -65,10 +65,11 @@ WebSocketServer.on("connection", (ws) => {
                     break;
             }
         } catch(e) {
-            ws.send({
-                type: "error",
-                message: JSON.stringify(e.message)
-            })
+	console.log(e)
+	//ws.send({
+	//      type: "error",
+	//      message: JSON.stringify(e.message)
+	//  })
         }
     })
 });
