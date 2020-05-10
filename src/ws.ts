@@ -67,7 +67,7 @@ WebSocketServer.on("connection", (ws) => {
         } catch(e) {
             ws.send({
                 type: "error",
-                message: e.message
+                message: JSON.stringify(e.message)
             })
         }
     })
