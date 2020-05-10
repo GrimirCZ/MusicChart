@@ -21,10 +21,10 @@ WebSocketServer.on("connection", (ws) => {
         const data = JSON.parse(rawData)
 
         if(!isValidMessage(data)) {
-	    ws.send({
+	    ws.send(JSON.stringify({
                 type: "error",
 		message: INVALID_JSON
-	    })
+	    }))
 
             return
 

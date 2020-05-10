@@ -21,6 +21,8 @@ const getVideoData = async (videoId: string) => {
 
     const res = await fetch(url.toString()).then(res => res.json())
 
+    console.log(res)
+
     let title = res.body.items[0].snippet.title;
 
     return {
