@@ -2,6 +2,7 @@ import { randomBytes } from "crypto"
 import { User } from "../types/user.type";
 import { Song } from "../types/song.type";
 import { YOUTUBE_API_KEY } from "../config/variables"
+import fetch from 'node-fetch';
 
 
 let songs: Song[] = []
@@ -17,11 +18,11 @@ const getVideoData = async (videoId: string) => {
 
     url.searchParams.append("id", videoId)
     url.searchParams.append("key", YOUTUBE_API_KEY)
-    url.searchParams.append("part", "contentDetails")
+    url.searchParams.append("part", "snippet")
 
     const res = await fetch(url.toString()).then(res => res.json())
 
-    let title = res.body.items[0].snippet.title;
+    let title = res.items[0].snippet.title;
 
     return {
         title

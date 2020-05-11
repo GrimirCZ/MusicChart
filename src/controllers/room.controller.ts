@@ -59,6 +59,7 @@ router.post("/connect", [
 
     if(isAdmin) {
         room.admin = newUser
+        room.lastChangeUser = newUser
     }
     room.users.push(newUser)
 

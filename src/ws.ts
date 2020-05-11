@@ -13,6 +13,7 @@ import songRemoveHandler from "./handlers/song-remove.handler"
 import songRateHandler from "./handlers/song-rate.handler"
 import songChangeHandler from "./handlers/song-change.handler"
 import WebSocketServer from "./config/ws.server"
+import { INVALID_JSON } from "./config/errors";
 
 
 WebSocketServer.on("connection", (ws) => {
@@ -20,7 +21,13 @@ WebSocketServer.on("connection", (ws) => {
         const data = JSON.parse(rawData)
 
         if(!isValidMessage(data)) {
+            ws.send(JSON.stringify({
+                type: "error",
+                message: INVALID_JSON
+            }))
+
             return
+
         }
 
         const message = <Message><unknown>data
@@ -58,10 +65,10 @@ WebSocketServer.on("connection", (ws) => {
                     break;
             }
         } catch(e) {
-            ws.send({
+            ws.send(JSON.stringify({
                 type: "error",
                 message: e.message
-            })
+            }))
         }
     })
 });
