@@ -37,7 +37,7 @@ const getVideoData = async (videoId: string) => {
 }
 
 const add = async ({songUrl, user}: AddSongProps): Promise<Song> => {
-    const youtubeIdRegexRes = /^((http|https):\/\/)?(www\.)?youtube\.(com|cz)?\/watch\?v=(?<id>[^"&?\/\s]+)$/.exec(songUrl)
+    const youtubeIdRegexRes = /^((http|https):\/\/)?(www\.)?youtube\.(com|cz)?\/watch\?(.+\&)*v=(?<id>[^"&?\/\s]+)(\&.*)*$/.exec(songUrl)
 
     if(!youtubeIdRegexRes.groups["id"])
         throw new Error(INVALID_VIDEO_URL);
