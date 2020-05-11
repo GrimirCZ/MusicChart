@@ -65,6 +65,7 @@ router.post("/connect", [
 
     return res.json({
         userId: newUser.id,
+        userName: newUser.name,
         isAdmin,
 
         canControl,
