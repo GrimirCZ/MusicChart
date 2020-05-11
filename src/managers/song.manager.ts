@@ -24,7 +24,6 @@ const getVideoData = async (videoId: string) => {
     const res = await fetch(url.toString()).then(res => res.json())
 
     if(res.items === undefined) {
-        console.log(url.toString())
         console.log(res)
 
         throw new Error(UNKNOWN_SERVER_ERROR);
