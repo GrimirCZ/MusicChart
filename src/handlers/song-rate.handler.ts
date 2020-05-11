@@ -16,9 +16,9 @@ export default (ws: WebSocket, message: SongRateMessage) => {
         throw new Error(SONG_NOT_FOUND)
     }
 
-    for(let i in song.ratings) {
-        if(song.ratings[i].user.id === user.id) {
-            song.ratings[i].value = message.newRating
+    for(let rating of song.ratings) {
+        if(rating.user.id === user.id) {
+            rating.value = message.newRating
         }
     }
 
