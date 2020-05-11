@@ -23,7 +23,7 @@ const getVideoData = async (videoId: string) => {
 
     const res = await fetch(url.toString()).then(res => res.json())
 
-    if(res.item === undefined) {
+    if(res.items === undefined) {
         console.log(url.toString())
         console.log(res)
 
