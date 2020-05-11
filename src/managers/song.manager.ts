@@ -3,7 +3,7 @@ import { User } from "../types/user.type";
 import { Song } from "../types/song.type";
 import { YOUTUBE_API_KEY } from "../config/variables"
 import fetch from 'node-fetch';
-import { UNKNOWN_SERVER_ERROR } from "../config/errors";
+import { INVALID_URL, UNKNOWN_SERVER_ERROR } from "../config/errors";
 
 
 let songs: Song[] = []
@@ -37,10 +37,12 @@ const getVideoData = async (videoId: string) => {
 }
 
 const add = async ({songUrl, user}: AddSongProps): Promise<Song> => {
-    const youtubeId = /^((http|https):\/\/)?(www\.)?youtube\.(com|cz)?\/watch\?v=(?<id>[a-zA-Z0-9]+)$/.exec(songUrl).groups["id"]
+    const youtubeIdRegexRes = /^((http|https):\/\/)?(www\.)?youtube\.(com|cz)?\/watch\?v=(?<id>.{11})$/.exec(songUrl)
 
-    if(!youtubeId)
-        throw new Error("Invalid URL");
+    if(!youtubeIdRegexRes.groups["id"])
+        throw new Error(INVALID_URL);
+
+    const youtubeId = youtubeIdRegexRes.groups["id"]
 
     const {title} = await getVideoData(youtubeId)
 
