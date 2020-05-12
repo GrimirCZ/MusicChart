@@ -12,7 +12,7 @@ type ConnectionUser = {
 export const getConnectionsOfRoom = (room: Room): ConnectionUser[] => {
     return Array.from(wss.clients)
         .reduce((arr, client) => {
-            const user = ClientConnectionManager.get(client)
+            const user = ClientConnectionManager.get(client).user
 
             if(user.room.id === room.id) {
 
