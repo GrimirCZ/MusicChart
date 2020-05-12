@@ -22,6 +22,8 @@ export const emitCurrentSongChangeEvent = (ws: WebSocket, user: User) => {
             currentScore: currentSong.ratings.reduce((i, cur) => i + cur.value, 0) / currentSong.ratings.length,
             yourRating: currentSong.ratings.filter(rating => rating.user.id === user.id)[0].value ?? 0,
 
+            dbgRatings: currentSong.ratings.map(rating => [rating.value, rating.user.id, rating.user.name]),
+
             hasPlayed: currentSong.hasPlayed
         },
 
