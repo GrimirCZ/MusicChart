@@ -9,14 +9,13 @@ type ConnectionUser = {
     user: User
 }
 
-// TODO: get better way to get all connections of room more efficiently, also make it more readable
-// TODO: try to figure better than O^2 complexity
 export const getConnectionsOfRoom = (room: Room): ConnectionUser[] => {
     return Array.from(wss.clients)
         .reduce((arr, client) => {
-            const user = room.users.filter((user: User) => user.id === ClientConnectionManager.get(client).id)[0] ?? null
+            const user = ClientConnectionManager.get(client)
 
-            if(user) {
+            if(user.room.id === room.id) {
+
                 return [...arr, {user, connection: client}]
             }
 
