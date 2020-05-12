@@ -46,8 +46,8 @@ router.post("/connect", [
         room.musicControl === "admin" && isAdmin
         || room.musicControl === "all"
     const canAdd =
-        room.musicControl === "admin" && isAdmin
-        || room.musicControl === "all"
+        room.musicAdd === "admin" && isAdmin
+        || room.musicAdd === "all"
 
     const newUser = UserManager.add({
         userName: req.body.userName,
