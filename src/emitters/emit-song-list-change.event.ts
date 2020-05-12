@@ -25,6 +25,9 @@ export const emitSongListChangeEvent = (ws: WebSocket, user: User) => {
             userName: user.name,
             currentScore: computeScore(ratings),
             yourRating: ratings.filter(rating => rating.user.id === user.id)[0].value,
+
+            dbgRatings: ratings.map(rating => [rating.value, rating.user.id, rating.user.name]),
+
             hasPlayed
         }))
     }))
