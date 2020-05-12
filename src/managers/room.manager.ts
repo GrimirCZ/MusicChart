@@ -14,7 +14,7 @@ type AddRoomProps = {
 }
 
 const add = ({roomName, musicControl, musicAdd}: AddRoomProps): Room => {
-    const newRoom = {
+    const newRoom = <Room>{
         id: randomBytes(26).toString("hex"),
         name: roomName,
 
@@ -26,7 +26,10 @@ const add = ({roomName, musicControl, musicAdd}: AddRoomProps): Room => {
 
         songs: <Song[]>[],
 
-        timeOfLastChangeStart: getCurrentTimestamp()
+        timeOfLastChangeStart: getCurrentTimestamp(),
+
+        currentSongState: "paused",
+        currentSongTime: 0
     }
 
     rooms.push(newRoom)

@@ -14,6 +14,12 @@ export const getConnectionsOfRoom = (room: Room): ConnectionUser[] => {
         .reduce((arr, client) => {
             const user = ClientConnectionManager.get(client)
 
+            if(user === undefined) {
+                console.error(user, client)
+
+                return arr
+            }
+
             if(user.room.id === room.id) {
 
                 return [...arr, {user, connection: client}]

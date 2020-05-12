@@ -25,7 +25,8 @@ export default (ws: WebSocket, message: SongChangeMessage) => {
 
     newSong.hasPlayed = true
     user.room.currentSong = newSong
-    user.room.timeOfLastChangeStart = getCurrentTimestamp() + CHANGE_PROPAGATION_TIMOUT
+    user.room.currentSongState = message.state
+    user.room.currentSongTime = message.time
 
     broadcastCurrentSongChangeEvent(user)
     broadcastNotification(user, {
