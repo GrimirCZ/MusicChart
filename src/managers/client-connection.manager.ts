@@ -3,12 +3,10 @@ import { User } from "../types/user.type";
 import { ConnectionData } from "../types/connection-data.type";
 import wss from "../config/ws.server";
 
-let connection = new WeakMap<WebSocket, ConnectionData>()
+let connection = new WeakMap<WebSocket, User>()
 
 const add = (ws: WebSocket, user: User) => {
-    connection.set(ws, {
-        user,
-    })
+    connection.set(ws, user,)
 }
 
 const get = (ws: WebSocket) => {

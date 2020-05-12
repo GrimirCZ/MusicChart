@@ -11,7 +11,7 @@ import { broadcastNotification } from "../emitters/emit-notification.event";
 import { NEW_SONG_ADDED, USER_DISCONNECTED } from "../types/notification-data.type";
 
 export default async (ws: WebSocket, message: SongAddMessage) => {
-    const user = ClientConnectionManager.get(ws).user
+    const user = ClientConnectionManager.get(ws)
 
     if(user === undefined) {
         throw new Error(USER_NOT_FOUND)

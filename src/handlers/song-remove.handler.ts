@@ -6,7 +6,7 @@ import WebSocket = require('ws');
 import { INSUFFICIENT_PERMISSIONS, SONG_NOT_FOUND, USER_NOT_FOUND } from "../config/errors";
 
 export default (ws: WebSocket, message: SongRemoveMessage) => {
-    const user = ClientConnectionManager.get(ws).user
+    const user = ClientConnectionManager.get(ws)
     const song = SongManager.get(message.songId)
 
     if(user === undefined) {
