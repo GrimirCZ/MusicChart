@@ -29,7 +29,8 @@ const add = ({roomName, musicControl, musicAdd}: AddRoomProps): Room => {
         timeOfLastChangeStart: getCurrentTimestamp(),
 
         currentSongState: "paused",
-        currentSongTime: 0
+        currentSongTime: 0,
+        since: 0
     }
 
     rooms.push(newRoom)

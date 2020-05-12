@@ -23,4 +23,5 @@ export type Room = {
 
     currentSongState: "playing" | "paused";
     currentSongTime: number;
+    since: number;
 }

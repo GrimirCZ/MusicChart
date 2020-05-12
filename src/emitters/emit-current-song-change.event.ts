@@ -27,7 +27,8 @@ export const emitCurrentSongChangeEvent = (ws: WebSocket, user: User) => {
         } || null,
 
         state: user.room.currentSongState,
-        time: user.room.currentSongTime
+        time: user.room.currentSongTime,
+        since: user.room.since
     }))
 }
 
