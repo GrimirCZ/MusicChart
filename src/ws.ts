@@ -14,6 +14,7 @@ import songRateHandler from "./handlers/song-rate.handler"
 import songChangeHandler from "./handlers/song-change.handler"
 import WebSocketServer from "./config/ws.server"
 import { INVALID_JSON } from "./config/errors";
+import { clientDisconnectHandler } from "./handlers/client-disconnect.handler";
 
 
 WebSocketServer.on("connection", (ws) => {
@@ -70,6 +71,10 @@ WebSocketServer.on("connection", (ws) => {
                 message: e.message
             }))
         }
+    })
+
+    ws.on("close", () => {
+        clientDisconnectHandler(ws)
     })
 });
 

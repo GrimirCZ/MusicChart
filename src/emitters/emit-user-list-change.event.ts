@@ -5,7 +5,7 @@ import { getConnectionsOfRoom } from "../helpers/get-connections-of-room";
 export const emitUserListChangeEvent = (ws: WebSocket, user: User) => {
     ws.send(JSON.stringify({
         type: "user-data",
-        count: user.room.users.length
+        activeUsers: getConnectionsOfRoom(user.room).map(({user}) => ({name: user.name}))
     }))
 }
 
