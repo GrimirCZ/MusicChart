@@ -7,12 +7,14 @@ import { NEW_USER_CONNECTED, USER_DISCONNECTED } from "../types/notification-dat
 export const clientDisconnectHandler = (ws: WebSocket) => {
     let user = ClientConnectionManager.get(ws)
 
-    broadcastUserListChangeEvent(user)
+    if(user !== undefined) {
+        broadcastUserListChangeEvent(user)
 
-    broadcastNotification(user, {
-        message: USER_DISCONNECTED,
-        data: {
-            disconnectedUserName: user.name
-        }
-    })
+        broadcastNotification(user, {
+            message: USER_DISCONNECTED,
+            data: {
+                disconnectedUserName: user.name
+            }
+        })
+    }
 }
