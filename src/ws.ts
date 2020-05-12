@@ -20,6 +20,8 @@ const noop = () => {
 }
 
 WebSocketServer.on("connection", (ws) => {
+    ws.on("pong", () => console.log("got pong"))
+
     ws.on("message", async (rawData: string) => {
         const data = JSON.parse(rawData)
 
