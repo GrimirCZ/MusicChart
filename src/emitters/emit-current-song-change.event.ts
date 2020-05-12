@@ -24,7 +24,7 @@ export const emitCurrentSongChangeEvent = (ws: WebSocket, user: User) => {
             yourRating: currentSong.ratings.filter(rating => rating.user.id === user.id)[0].value ?? 0,
 
             hasPlayed: currentSong.hasPlayed
-        },
+        } || null,
 
         state: user.room.currentSongState,
         time: user.room.currentSongTime
