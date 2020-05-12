@@ -7,6 +7,8 @@ import ClientConnectionManager from "../managers/client-connection.manager";
 import WebSocket = require('ws');
 import { INSUFFICIENT_PERMISSIONS, USER_NOT_FOUND } from "../config/errors";
 import { broadcastSongListChange } from "../emitters/emit-song-list-change.event";
+import { broadcastNotification } from "../emitters/emit-notification.event";
+import { NEW_SONG_ADDED, USER_DISCONNECTED } from "../types/notification-data.type";
 
 export default async (ws: WebSocket, message: SongAddMessage) => {
     const user = ClientConnectionManager.get(ws)
@@ -26,4 +28,10 @@ export default async (ws: WebSocket, message: SongAddMessage) => {
     user.room.songs.push(newSong)
 
     broadcastSongListChange(user)
+    broadcastNotification(user, {
+        message: NEW_SONG_ADDED,
+        data: {
+            addedSongName: newSong.name
+        }
+    })
 }

@@ -6,6 +6,8 @@ import { broadcastCurrentSongChangeEvent } from "../emitters/emit-current-song-c
 import WebSocket = require('ws');
 import { getCurrentTimestamp } from "../helpers/get-current-timestamp";
 import { INSUFFICIENT_PERMISSIONS, SONG_NOT_FOUND, USER_NOT_FOUND } from "../config/errors";
+import { broadcastNotification } from "../emitters/emit-notification.event";
+import { CURRENT_SONG_CHANGED, NEW_SONG_ADDED } from "../types/notification-data.type";
 
 export default (ws: WebSocket, message: SongChangeMessage) => {
     const user = ClientConnectionManager.get(ws)
@@ -26,4 +28,10 @@ export default (ws: WebSocket, message: SongChangeMessage) => {
     user.room.timeOfLastChangeStart = getCurrentTimestamp() + CHANGE_PROPAGATION_TIMOUT
 
     broadcastCurrentSongChangeEvent(user)
+    broadcastNotification(user, {
+        message: CURRENT_SONG_CHANGED,
+        data: {
+            newSongName: newSong.name
+        }
+    })
 }

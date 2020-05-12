@@ -6,6 +6,8 @@ import emitUserListChangeEvent, { broadcastUserListChangeEvent } from "../emitte
 import { emitCurrentSongChangeEvent } from "../emitters/emit-current-song-change.event";
 import WebSocket = require('ws');
 import { USER_NOT_FOUND } from "../config/errors";
+import { broadcastNotification } from "../emitters/emit-notification.event";
+import { NEW_USER_CONNECTED } from "../types/notification-data.type";
 
 export const clientConnectHandler = (ws: WebSocket, message: ClientConnectMessage) => {
     const user = UserManager.get(message.userId)
@@ -19,6 +21,13 @@ export const clientConnectHandler = (ws: WebSocket, message: ClientConnectMessag
     emitSongListChangeEvent(ws, user);
     emitCurrentSongChangeEvent(ws, user);
     broadcastUserListChangeEvent(user);
+
+    broadcastNotification(user, {
+        message: NEW_USER_CONNECTED,
+        data: {
+            newUserName: user.name
+        }
+    })
 }
 
 export default clientConnectHandler
