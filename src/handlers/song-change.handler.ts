@@ -10,7 +10,7 @@ import { broadcastNotification } from "../emitters/emit-notification.event";
 import { CURRENT_SONG_CHANGED, NEW_SONG_ADDED } from "../types/notification-data.type";
 
 export default (ws: WebSocket, message: SongChangeMessage) => {
-    const user = ClientConnectionManager.get(ws)
+    const user = ClientConnectionManager.get(ws).user
     const newSong = SongManager.get(message.newSongId)
 
     if(user === undefined) {

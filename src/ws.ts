@@ -16,6 +16,8 @@ import WebSocketServer from "./config/ws.server"
 import { INVALID_JSON } from "./config/errors";
 import { clientDisconnectHandler } from "./handlers/client-disconnect.handler";
 
+const noop = () => {
+}
 
 WebSocketServer.on("connection", (ws) => {
     ws.on("message", async (rawData: string) => {
@@ -77,5 +79,11 @@ WebSocketServer.on("connection", (ws) => {
         clientDisconnectHandler(ws)
     })
 });
+
+setInterval(() => {
+    WebSocketServer.clients.forEach((ws) => {
+        ws.ping(noop);
+    });
+}, 1000);
 
 export default WebSocketServer

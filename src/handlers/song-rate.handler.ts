@@ -6,7 +6,7 @@ import WebSocket = require('ws');
 import { SONG_NOT_FOUND, USER_NOT_FOUND } from "../config/errors";
 
 export default (ws: WebSocket, message: SongRateMessage) => {
-    const user = ClientConnectionManager.get(ws)
+    const user = ClientConnectionManager.get(ws).user
     const song = SongManager.get(message.songId)
 
     if(user === undefined) {
