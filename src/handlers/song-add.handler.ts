@@ -31,7 +31,8 @@ export default async (ws: WebSocket, message: SongAddMessage) => {
     broadcastNotification(user, {
         message: NEW_SONG_ADDED,
         data: {
-            addedSongName: newSong.name
+            addedSongName: newSong.name,
+            userName: user.name
         }
     })
 }

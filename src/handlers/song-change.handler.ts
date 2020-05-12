@@ -27,13 +27,14 @@ export default (ws: WebSocket, message: SongChangeMessage) => {
     user.room.currentSong = newSong
     user.room.currentSongState = message.state
     user.room.currentSongTime = message.time
-    user.room.since = getCurrentTimestamp()
+    user.room.since = getCurrentTimestamp() + 5
 
     broadcastCurrentSongChangeEvent(user)
     broadcastNotification(user, {
         message: CURRENT_SONG_CHANGED,
         data: {
-            newSongName: newSong.name
+            newSongName: newSong.name,
+            userName: user.name
         }
     })
 }

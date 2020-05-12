@@ -4,6 +4,8 @@ import SongManager from "../managers/song.manager";
 import ClientConnectionManager from "../managers/client-connection.manager";
 import WebSocket = require('ws');
 import { INSUFFICIENT_PERMISSIONS, SONG_NOT_FOUND, USER_NOT_FOUND } from "../config/errors";
+import { broadcastNotification } from "../emitters/emit-notification.event";
+import { CURRENT_SONG_CHANGED, SONG_REMOVED } from "../types/notification-data.type";
 
 export default (ws: WebSocket, message: SongRemoveMessage) => {
     const user = ClientConnectionManager.get(ws)
@@ -25,4 +27,11 @@ export default (ws: WebSocket, message: SongRemoveMessage) => {
     song.room.songs = song.room.songs.filter(song => song.id !== message.songId)
 
     broadcastSongListChange(user)
+    broadcastNotification(user, {
+        message: SONG_REMOVED,
+        data: {
+            songName: song.name,
+            userName: user.name
+        }
+    })
 }
