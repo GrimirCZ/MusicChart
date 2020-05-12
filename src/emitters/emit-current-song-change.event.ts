@@ -1,6 +1,7 @@
 import WebSocket = require('ws');
 import { getConnectionsOfRoom } from "../helpers/get-connections-of-room";
 import { User } from "../types/user.type";
+import { computeScore } from "../helpers/compute-score";
 
 
 export const emitCurrentSongChangeEvent = (ws: WebSocket, user: User) => {
@@ -19,7 +20,7 @@ export const emitCurrentSongChangeEvent = (ws: WebSocket, user: User) => {
             userName: user.room.lastChangeUser.name,
 
             //TODO: add better stat computation algorithm
-            currentScore: currentSong.ratings.reduce((i, cur) => i + cur.value, 0) / currentSong.ratings.length,
+            currentScore: computeScore(currentSong.ratings),
             yourRating: currentSong.ratings.filter(rating => rating.user.id === user.id)[0].value ?? 0,
 
             hasPlayed: currentSong.hasPlayed

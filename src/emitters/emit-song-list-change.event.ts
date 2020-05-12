@@ -2,10 +2,8 @@ import WebSocket = require('ws');
 import { User } from "../types/user.type";
 import { Rating } from "../types/rating.type";
 import { getConnectionsOfRoom } from "../helpers/get-connections-of-room";
+import { computeScore } from "../helpers/compute-score";
 
-const computeScore = (rating: Rating[]) => {
-    return rating.reduce((prev, cur) => prev + cur.value, 0) / rating.length
-}
 
 export const emitSongListChangeEvent = (ws: WebSocket, user: User) => {
     ws.send(JSON.stringify({
