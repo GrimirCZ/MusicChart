@@ -13,7 +13,7 @@ export const emitCurrentSongChangeEvent = (ws: WebSocket, user: User) => {
     }))
 }
 
-export const broadCastCurrentSongChangeEvent = (user: User) => {
+export const broadcastCurrentSongChangeEvent = (user: User) => {
     getConnectionsOfRoom(user.room)
         .forEach(client => emitCurrentSongChangeEvent(client.connection, client.user))
 }

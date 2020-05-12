@@ -1,5 +1,5 @@
 import { SongAddMessage } from "../types/message.type";
-import { broadCastCurrentSongChangeEvent } from "../emitters/emit-current-song-change.event";
+import { broadcastCurrentSongChangeEvent } from "../emitters/emit-current-song-change.event";
 import wss from "../config/ws.server";
 import { Song } from "../types/song.type";
 import SongManager from "../managers/song.manager";

@@ -62,9 +62,16 @@ router.post("/connect", [
         room.lastChangeUser = newUser
     }
     room.users.push(newUser)
+    room.songs.forEach(song => {
+        song.ratings = [...song.ratings, {
+            user: newUser,
+            value: 0
+        }]
+    })
 
     return res.json({
         userId: newUser.id,
+        userName: newUser.name,
         isAdmin,
 
         canControl,
