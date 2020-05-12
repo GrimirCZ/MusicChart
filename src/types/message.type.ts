@@ -1,6 +1,7 @@
-type MessageTypeEnum = "health-check" | "client-connect" | "song-add" | "song-remove" | "song-rate" | "song-change"
 import { has } from "lodash"
 import { Any, Nullable, Primitive, validate } from 'validate-typescript';
+
+type MessageTypeEnum = "health-check" | "client-connect" | "song-add" | "song-remove" | "song-rate" | "song-change"
 
 
 export const isValidMessage = (data: any) => {
@@ -67,7 +68,7 @@ export const validateSongChangeMessage = (message: Message): SongChangeMessage =
         newSongId: Primitive(String),
 
         state: Any(["playing", "paused"]),
-        time: Nullable(Number)
+        time: Nullable(Primitive(Number))
     }, message)
 }
 
