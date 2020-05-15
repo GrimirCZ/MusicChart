@@ -21,7 +21,11 @@ export const emitCurrentSongChangeEvent = (ws: WebSocket, user: User) => {
 
             //TODO: add better stat computation algorithm
             currentScore: computeScore(currentSong.ratings),
-            yourRating: currentSong.ratings.filter(rating => rating.user.id === user.id)[0].value ?? 0,
+            ratings: currentSong.ratings.map(rating => ({
+                userId: rating.user.id,
+                userName: rating.user.name,
+                rating: rating.value
+            })),
 
             hasPlayed: currentSong.hasPlayed
         } || null,
