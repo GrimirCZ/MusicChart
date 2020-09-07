@@ -16,6 +16,8 @@ export const clientConnectHandler = (ws: WebSocket, message: ClientConnectMessag
         throw new Error(USER_NOT_FOUND)
     }
 
+    user.room.activeUsers++;
+
     ClientConnectionManager.add(ws, user)
 
     emitSongListChangeEvent(ws, user);

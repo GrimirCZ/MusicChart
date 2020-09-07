@@ -20,6 +20,7 @@ export type Room = {
     lastChangeUser?: User
     timeOfLastChangeStart?: Timestamp
 
+    activeUsers?: number,
 
     currentSongState: "playing" | "paused";
     currentSongTime: number;

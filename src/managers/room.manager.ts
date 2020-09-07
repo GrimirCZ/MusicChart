@@ -28,6 +28,8 @@ const add = ({roomName, musicControl, musicAdd}: AddRoomProps): Room => {
 
         timeOfLastChangeStart: getCurrentTimestamp(),
 
+        activeUsers: 0,
+
         currentSongState: "paused",
         currentSongTime: 0,
         since: 0
@@ -44,10 +46,13 @@ const get = (roomId: string) => {
 
 const count = () => rooms.length
 
+const activeCount = () => rooms.filter(room => room.activeUsers > 0).length
+
 const RoomManager = {
     add,
     get,
-    count
+    count,
+    activeCount
 }
 
 export default RoomManager
