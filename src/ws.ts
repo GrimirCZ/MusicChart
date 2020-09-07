@@ -81,6 +81,9 @@ WebSocketServer.on("connection", (ws) => {
     ws.on("close", () => {
         clientDisconnectHandler(ws)
     })
+    ws.on("error", () => {
+        clientDisconnectHandler(ws)
+    })
 });
 
 setInterval(() => {
