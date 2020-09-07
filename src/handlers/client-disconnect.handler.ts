@@ -6,6 +6,7 @@ import { NEW_USER_CONNECTED, USER_DISCONNECTED } from "../types/notification-dat
 
 export const clientDisconnectHandler = (ws: WebSocket) => {
     let user = ClientConnectionManager.get(ws)
+    ClientConnectionManager.remove(ws)
 
     broadcastUserListChangeEvent(user)
 

@@ -5,7 +5,13 @@
     "removeComments": true,
     "preserveConstEnums": true,
     "outDir": "dist/",
-    "sourceMap": true
+    "sourceMap": true,
+    "lib": [
+      "dom",
+      "es5",
+      "scripthost",
+      "es2015.collection"
+    ]
   },
   "include": [
     "src/**/*"

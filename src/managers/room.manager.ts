@@ -42,9 +42,12 @@ const get = (roomId: string) => {
     return rooms.filter(room => room.id === roomId)[0]
 }
 
+const count = () => rooms.length
+
 const RoomManager = {
     add,
-    get
+    get,
+    count
 }
 
 export default RoomManager

@@ -34,6 +34,7 @@
     "mocha": "^7.1.2",
     "node-fetch": "^2.6.0",
     "sinon": "^9.0.2",
+    "timesync": "^1.0.7",
     "ts-mock-imports": "^1.3.0",
     "ts-node": "^8.10.1",
     "typescript": "^3.8.3",
