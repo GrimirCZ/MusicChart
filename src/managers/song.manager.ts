@@ -44,7 +44,11 @@ const add = async ({songUrl, user}: AddSongProps): Promise<Song> => {
 
     const youtubeId = youtubeIdRegexRes.groups["id"]
 
-    const {title} = await getVideoData(youtubeId)
+    let title = "Neznámý název videa";
+    try {
+        const obj = await getVideoData(youtubeId)
+        title = obj.title;
+    } catch(e){}
 
     const newSong: Song = {
         id: randomBytes(26).toString("hex"),
