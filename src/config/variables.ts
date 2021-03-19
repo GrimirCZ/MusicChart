@@ -1,6 +1,10 @@
 import * as assert from "assert";
+import { doesNotHaveValue } from "../util";
 
-const envBoolean = (v: string) => {
+const envBoolean = (v?: string | null) => {
+    if(doesNotHaveValue(v)){
+        return false
+    }
     const normalized = v.toLowerCase()
 
     return normalized === "yes" || normalized === "on" || normalized === "true"
