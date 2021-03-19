@@ -6,11 +6,13 @@
     "preserveConstEnums": true,
     "outDir": "dist/",
     "sourceMap": true,
+    "skipLibCheck": true,
     "lib": [
       "dom",
       "es5",
       "scripthost",
-      "es2015.collection"
+      "es2015.collection",
+      "ESNext"
     ]
   },
   "include": [

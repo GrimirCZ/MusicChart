@@ -8,6 +8,4 @@ export type User = {
 
     canControl: boolean
     canAdd: boolean
-
-    room: Room
 }

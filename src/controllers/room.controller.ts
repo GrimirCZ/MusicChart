@@ -10,38 +10,38 @@ router.post("/create", [
     body("roomName").isString(),
     body("musicControl").isIn(["admin", "all"]),
     body("musicAdd").isIn(["admin", "all"])
-], (req: Request, res: Response) => {
+], async (req: Request, res: Response) => {
     const errors = validationResult(req)
 
     if(!errors.isEmpty()) {
         return res.status(422).json({errors: errors.array()});
     }
 
-    const {id} = RoomManager.add(req.body);
+    const {roomId} = await RoomManager.add(req.body);
 
     return res.json({
-        roomId: id
+        roomId: roomId
     })
 })
 
 router.post("/connect", [
     body("userName").isString(),
     body("roomId").isString()
-], (req: Request, res: Response) => {
+], async (req: Request, res: Response) => {
     const errors = validationResult(req)
 
     if(!errors.isEmpty()) {
         return res.status(422).json({errors: errors.array()});
     }
 
-    const room = RoomManager.get(req.body.roomId)
+    const room = await RoomManager.get(req.body.roomId)
 
     if(room === undefined) {
 
         return res.status(401).json({errors: [ROOM_NOT_FOUND]});
     }
 
-    const isAdmin = room.admin === null;
+    const isAdmin = room.adminId === null;
     const canControl =
         room.musicControl === "admin" && isAdmin
         || room.musicControl === "all"
@@ -49,7 +49,7 @@ router.post("/connect", [
         room.musicAdd === "admin" && isAdmin
         || room.musicAdd === "all"
 
-    const newUser = UserManager.add({
+    const newUser = await UserManager.add({
         userName: req.body.userName,
         isAdmin,
         canControl,
@@ -58,13 +58,16 @@ router.post("/connect", [
     })
 
     if(isAdmin) {
-        room.admin = newUser
-        room.lastChangeUser = newUser
+        room.adminId = newUser.id
+        room.adminName = newUser.name
+        room.lastChangeUserId = newUser.id
+        room.lastChangeUserName = newUser.name
     }
     room.users.push(newUser)
     room.songs.forEach(song => {
         song.ratings = [...song.ratings, {
-            user: newUser,
+            userId: newUser.id,
+            userName: newUser.name,
             value: 0
         }]
     })
@@ -78,7 +81,7 @@ router.post("/connect", [
         canAdd,
 
         roomName: room.name,
-        adminName: room.admin.name
+        adminName: room.adminName
     })
 })
 

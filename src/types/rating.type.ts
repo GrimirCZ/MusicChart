@@ -1,6 +1,5 @@
-import { User } from "./user.type";
-
 export type Rating = {
-    user: User
+    userId: string
+    userName: string
     value: number
 }

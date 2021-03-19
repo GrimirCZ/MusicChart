@@ -8,10 +8,12 @@ import { getCurrentTimestamp } from "../helpers/get-current-timestamp";
 import { INSUFFICIENT_PERMISSIONS, SONG_NOT_FOUND, USER_NOT_FOUND } from "../config/errors";
 import { broadcastNotification } from "../emitters/emit-notification.event";
 import { CURRENT_SONG_CHANGED, NEW_SONG_ADDED } from "../types/notification-data.type";
+import UserManager from "../managers/user.manager";
+import RoomManager from "../managers/room.manager";
 
-export default (ws: WebSocket, message: SongChangeMessage) => {
-    const user = ClientConnectionManager.get(ws)
-    const newSong = SongManager.get(message.newSongId)
+export default async (ws: WebSocket, message: SongChangeMessage) => {
+    const user = await UserManager.getById(await ClientConnectionManager.getUserIdFromConnection(ws))
+    const newSong = await SongManager.getBySongId(message.newSongId)
 
     if(user === undefined) {
         throw new Error(USER_NOT_FOUND)
@@ -24,10 +26,17 @@ export default (ws: WebSocket, message: SongChangeMessage) => {
     }
 
     newSong.hasPlayed = true
-    user.room.currentSong = newSong
-    user.room.currentSongState = message.state
-    user.room.currentSongTime = message.time
-    user.room.since = getCurrentTimestamp() + 5
 
-    broadcastCurrentSongChangeEvent(user)
+    const room = await RoomManager.getByUserId(user.id)
+
+    room.currentSongId = newSong.id
+    room.currentSongState = message.state
+    room.currentSongTime = message.time
+    room.lastChangeUserId = user.id
+    room.lastChangeUserId = user.name
+    room.since = getCurrentTimestamp() + 5
+
+    await RoomManager.save(room)
+
+    broadcastCurrentSongChangeEvent(room, newSong)
 }

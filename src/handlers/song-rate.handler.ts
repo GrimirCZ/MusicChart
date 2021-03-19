@@ -4,23 +4,41 @@ import SongManager from "../managers/song.manager";
 import ClientConnectionManager from "../managers/client-connection.manager";
 import WebSocket = require('ws');
 import { SONG_NOT_FOUND, USER_NOT_FOUND } from "../config/errors";
+import UserManager from "../managers/user.manager";
+import RoomManager from "../managers/room.manager";
 
-export default (ws: WebSocket, message: SongRateMessage) => {
-    const user = ClientConnectionManager.get(ws)
-    const song = SongManager.get(message.songId)
+export default async (ws: WebSocket, message: SongRateMessage) => {
+    const user = await UserManager.getById(await ClientConnectionManager.getUserIdFromConnection(ws))
 
     if(user === undefined) {
         throw new Error(USER_NOT_FOUND)
     }
-    if(song === undefined) {
-        throw new Error(SONG_NOT_FOUND)
-    }
 
-    for(let rating of song.ratings) {
-        if(rating.user.id === user.id) {
-            rating.value = message.newRating
+    const room = await RoomManager.getByUserId(user.id)
+
+    let found = false;
+
+    // need to retain correct reference
+    // FIXME: figure out something better
+    for(const song of room.songs){
+        if(song.id === message.songId){
+            for(const rating of song.ratings) {
+                if(rating.userId === user.id) {
+                    rating.value = message.newRating
+                    break;
+                }
+            }
+
+            found = true;
+            break;
         }
     }
 
-    broadcastSongListChange(user)
+    if(!found){
+        throw new Error(SONG_NOT_FOUND)
+    }
+
+    await RoomManager.save(room)
+
+    broadcastSongListChange(room)
 }

@@ -9,9 +9,11 @@ import { INSUFFICIENT_PERMISSIONS, USER_NOT_FOUND } from "../config/errors";
 import { broadcastSongListChange } from "../emitters/emit-song-list-change.event";
 import { broadcastNotification } from "../emitters/emit-notification.event";
 import { NEW_SONG_ADDED, USER_DISCONNECTED } from "../types/notification-data.type";
+import UserManager from "../managers/user.manager";
+import RoomManager from "../managers/room.manager";
 
 export default async (ws: WebSocket, message: SongAddMessage) => {
-    const user = ClientConnectionManager.get(ws)
+    const user = await UserManager.getById(await ClientConnectionManager.getUserIdFromConnection(ws))
 
     if(user === undefined) {
         throw new Error(USER_NOT_FOUND)
@@ -21,14 +23,18 @@ export default async (ws: WebSocket, message: SongAddMessage) => {
         throw new Error(INSUFFICIENT_PERMISSIONS)
     }
 
+    const room = await RoomManager.getByUserId(user.id)
+
     let newSong: Song;
 
-    newSong = await SongManager.add({...message, user})
+    newSong = await SongManager.add({...message, user, room})
 
-    user.room.songs.push(newSong)
+    room.songs.push(newSong)
 
-    broadcastSongListChange(user)
-    broadcastNotification(user, {
+    await RoomManager.save(room)
+
+    broadcastSongListChange(room)
+    broadcastNotification(room, {
         message: NEW_SONG_ADDED,
         data: {
             addedSongName: newSong.name,

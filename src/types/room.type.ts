@@ -4,20 +4,23 @@ import { Timestamp } from "./timestamp.type";
 
 export type RightEnum = "admin" | "all"
 
-export type Room = {
-    id: string
+export interface Room {
+    roomId: string
     name: string
 
-    musicControl: RightEnum
     musicAdd: RightEnum
+    musicControl: RightEnum
 
-    admin: User | null
+    adminId?: string
+    adminName?: string
     users: User[]
 
     songs: Song[]
 
-    currentSong?: Song
-    lastChangeUser?: User
+    currentSongId?: string
+    // currentSong?: Song
+    lastChangeUserId?: string
+    lastChangeUserName?: string
     timeOfLastChangeStart?: Timestamp
 
     activeUsers?: number,

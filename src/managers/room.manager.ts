@@ -1,58 +1,32 @@
-import { RightEnum, Room } from "../types/room.type";
-import { randomBytes } from "crypto"
-import { User } from "../types/user.type";
-import { Song } from "../types/song.type";
-import { getCurrentTimestamp } from "../helpers/get-current-timestamp";
+import { Room } from "../types/room.type";
+import { USER_NOT_FOUND } from "../config/errors";
+import RoomRepository, { AddRoomProps } from "../repositories/RoomRepository";
 
-let rooms: Room[] = []
-
-type AddRoomProps = {
-    roomName: string
-
-    musicControl: RightEnum
-    musicAdd: RightEnum
+const add = async (props: AddRoomProps): Promise<Room> => {
+    return RoomRepository.add(props)
 }
 
-const add = ({roomName, musicControl, musicAdd}: AddRoomProps): Room => {
-    const newRoom = <Room>{
-        id: randomBytes(26).toString("hex"),
-        name: roomName,
-
-        musicAdd,
-        musicControl,
-
-        admin: <null>null,
-        users: <User[]>[],
-
-        songs: <Song[]>[],
-
-        timeOfLastChangeStart: getCurrentTimestamp(),
-
-        activeUsers: 0,
-
-        currentSongState: "paused",
-        currentSongTime: 0,
-        since: 0
-    }
-
-    rooms.push(newRoom)
-
-    return newRoom
+const get = async (roomId: string) => {
+    return RoomRepository.get(roomId)
 }
 
-const get = (roomId: string) => {
-    return rooms.filter(room => room.id === roomId)[0]
+const getByUserId = async (userId: string) => {
+    return RoomRepository.getByUserId(userId)
 }
 
-const count = () => rooms.length
+const count = async () => await RoomRepository.count()
 
-const activeCount = () => rooms.filter(room => room.activeUsers > 0).length
+const activeRoomCount = async () => await RoomRepository.activeRoomCount()
+
+const save = async (room: Room) => await RoomRepository.save(room)
 
 const RoomManager = {
     add,
     get,
+    getByUserId,
     count,
-    activeCount
+    save,
+    activeRoomCount,
 }
 
 export default RoomManager
