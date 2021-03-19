@@ -28,7 +28,11 @@ export default async (ws: WebSocket, message: SongRemoveMessage) => {
 
     await SongManager.remove(song.id)
 
-    room.songs = room.songs.filter(song => song.id !== message.songId)
+    if(room.currentSongId === song.id){
+        room.currentSongId = undefined
+        room.currentSongState = "paused"
+        room.currentSongTime = 0
+    }
 
     await RoomManager.save(room)
 
