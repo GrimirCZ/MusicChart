@@ -1,5 +1,5 @@
 import * as Mongoose from "mongoose";
-import { MONGO_URI } from "./variables";
+import { DB_DEBUG, MONGO_URI } from "./variables";
 
 export let database: Mongoose.Connection
 
@@ -10,7 +10,8 @@ export const connect = async () => {
         useUnifiedTopology: true,
         // useCreateIndex: true,
     });
-    Mongoose.set('debug', true);
+
+    Mongoose.set('debug', DB_DEBUG);
 
     database = Mongoose.connection;
     database.once("open", async () => {
