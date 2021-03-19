@@ -45,4 +45,6 @@ export const DB_MODE: DBMode = <DBMode>process.env["DB"] || "in-memory"
 
 assert(["in-memory", "mongodb"].includes(DB_MODE), "Only supported database backends are mongodb and in-memory")
 
+console.log(`Application is using ${DB_MODE} backend`)
+
 export const CHANGE_PROPAGATION_TIMOUT = 1
