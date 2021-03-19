@@ -36,7 +36,7 @@
     "lodash": "^4.17.19",
     "mocha": "^7.1.2",
     "mongoose": "^5.12.0",
-    "node-fetch": "^2.6.0",
+    "node-fetch": "^2.6.1",
     "sinon": "^9.0.2",
     "timesync": "^1.0.7",
     "ts-mock-imports": "^1.3.0",
