@@ -33,7 +33,7 @@
     "google-auth-library": "^6.0.0",
     "googleapis": "^50.0.0",
     "js-video-url-parser": "^0.4.1",
-    "lodash": "^4.17.19",
+    "lodash": "^4.17.21",
     "mocha": "^7.1.2",
     "mongoose": "^5.12.0",
     "node-fetch": "^2.6.7",
